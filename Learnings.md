@@ -28,3 +28,21 @@ SUB R2,R0,R1 ;R2=R0-R1
 - If R0 would be `ffff ffff` and R1 be `1`, then the value of R2 would be `ffff fffe`
 - The question arises: Is it a negative number or a very large number.
 - Now, to visualize this, we need CPSR register. </br>
+
+# Day-3
+- Arithmetic and CPSR flags: ADDS, SUBS, ADC (r2=r0+r1+carry and carry equals zero if flag is zero and equals one if flag is one.
+- Logical operations:
+```
+MOV R0,#0xff
+	MOV R1,#22
+	AND R2,R0,R1 // answer will be the same as 22
+```
+- OR operation: ORR is the command
+- XOR : EOR
+- Negate: MVN (move negative)
+```
+MOV R0,#0xff
+	MVN R0,R0
+```
+The answer will be r0 = 0xffffff00 (The operation is performed on the entire register and not just on the two bits).
+How to get only zeroes in the output? Well use AND R0,R0,#0x000000ff </br>
