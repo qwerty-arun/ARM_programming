@@ -46,3 +46,37 @@ MOV R0,#0xff
 ```
 The answer will be r0 = 0xffffff00 (The operation is performed on the entire register and not just on the two bits).
 How to get only zeroes in the output? Well use AND R0,R0,#0x000000ff </br>
+
+# Day-4
+- Logical shift operations: LSL and LSR which in decimal means "multiply by 2" and "divide by 2" respectively.
+- Using the command MOV along with other commands in a single line.
+```
+MOV R0,#10
+MOV R1,R0,LSL #1
+```
+The above code snippet moves the value 10 to R0 register. Then, the same value is moved to the register R1 and then logical left shift is performed '1' times.
+- Conditional Statements: BNE, BEQ, BLE, BGE, BGT, BLT etc.
+```
+MOV R0,#1
+MOV R1,#2
+CMP RO,R1
+BGT greater
+MOV R2,#2
+greater:
+	MOV R2,#1
+```
+- After execution, the negative flag will be set and the Branch statement is not executed and the control moves  to `MOV R2,#2`.
+- If R0 were '3' , then branch statement will be executed and the control moves to the label `greater`.
+- In ARM, execution happens sequentially, so we would end up in 'greater' label anyways.
+```
+MOV R0,#1
+MOV R1,#2
+CMP RO,R1
+BGT greater
+BAL default
+greater:
+	MOV R2,#1
+default:
+	MOV R2,#2
+```
+- BAL: Branch Always can be used with the default case. But the problem here too is, that we reach the default case anyway at the end. </br>
