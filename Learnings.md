@@ -80,3 +80,28 @@ default:
 	MOV R2,#2
 ```
 - BAL: Branch Always can be used with the default case. But the problem here too is, that we reach the default case anyway at the end. </br>
+
+# Day-5
+- The below program illustrates the concept of loops, it adds all the values in the list and stores in the R2 register.
+```
+.global _start
+.equ endlist, 0xaaaaaaaa //defining a constant
+_start:
+	LDR R0,=list
+	LDR R3,=endlist
+	ldr R1,[R0]
+	ADD R2,R2,R1
+loop:
+	LDR R1,[R0,#4]! //next value in the list
+	CMP R1,R3
+	BEQ exit
+	ADD R2,R2,R1
+	BAL loop
+
+exit: //exit condition
+	
+.data	//defining a list/array
+list:
+	.word 1,2,3,4,5,6,7,8,9,10
+```
+- Final value of R2 will be 37 which is 55 in decimal.
