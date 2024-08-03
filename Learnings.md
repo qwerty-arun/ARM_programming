@@ -105,3 +105,84 @@ list:
 	.word 1,2,3,4,5,6,7,8,9,10
 ```
 - Final value of R2 will be 37 which is 55 in decimal.
+
+#Day-6
+- Introduction to conditional insturctions: ADDLT, MOVGE, MOVLE etc. Advantage is that it avoids branches and condenses the code.
+- Introduction to functions/sub-routines. Idea of going back to the location that called after branching. We use `BL` which stands for `branch links` and holds the address of the nest instruction after branch in the Link Register.
+- To back to the address stored in the LR, we use `BX LR`.
+```
+.global _start
+_start:
+	
+	MOV R0,#1
+	MOV R1,#3
+	BL add2
+	MOV R3,#4
+	
+add2:
+	ADD R2,R0,R1
+	BX lr
+```
+- The flow does move back to the address stored in the LR. It acts just like a function written in higher level language. But, there is more to it.
+- Preserving data from stack memory:
+```
+.global _start
+_start:
+	
+	  MOV R0,#1
+	  MOV R1,#3
+	  BL get_value
+	  
+get_value:
+	MOV R0,#5
+	MOV R1,#7
+	ADD R2,R0,R1
+	BX lr 
+```
+- R0 and R1 have the value 1 and 3 respectively before branching. After branching, the values are overridden to 5 and 7 respectively. R2 gets the value 12 (c) and when we go back, R0 and R1 no longer have the values 1 and 3. So what do we do? We use the PUSH and POPO operations.
+- We use them to preserve the values of R0 and R1.
+```
+.global _start
+_start:
+	
+	  MOV R0,#1
+	  MOV R1,#3
+	  PUSH {R0,R1}
+	  BL get_value
+	  POP {R0,R1}
+	  B end
+	  
+get_value: 
+	MOV R0,#5
+	MOV R1,#7
+	ADD R2,R0,R1
+	BX lr 
+	
+end:
+```
+- The values of R0 and R1 are pushed onto the stack before the branching. After the return, we pop those values out of the stack and put them back into R0 and R1.
+- The stack pointer gets activated now and holds the address `ffff fff8` where the value `1` is  stored and at `ffff fffc`, the value `3` is stored.
+- After the values are popped, the SP is set back to 0.
+- What if we wanted to store R2 as well. Well we could push R2 onto the stack and we could pop the value and store it in a different register.
+```
+.global _start
+_start:
+	
+	  MOV R0,#1
+	  MOV R1,#3
+	  PUSH {R0,R1}
+	  BL get_value
+	  POP {R5}
+	  POP {R0,R1}
+	  B end
+	  
+get_value: 
+	MOV R0,#5
+	MOV R1,#7
+	ADD R2,R0,R1
+	PUSH {R2}
+	BX lr 
+	
+end:
+```
+- R5 will hold the value that R2 stored in the function. This is a traditional way of return a value, though not used so much.
