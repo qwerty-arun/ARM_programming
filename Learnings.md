@@ -106,7 +106,7 @@ list:
 ```
 - Final value of R2 will be 37 which is 55 in decimal.
 
-#Day-6
+# Day-6
 - Introduction to conditional insturctions: ADDLT, MOVGE, MOVLE etc. Advantage is that it avoids branches and condenses the code.
 - Introduction to functions/sub-routines. Idea of going back to the location that called after branching. We use `BL` which stands for `branch links` and holds the address of the nest instruction after branch in the Link Register.
 - To back to the address stored in the LR, we use `BX LR`.
