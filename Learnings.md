@@ -186,3 +186,6 @@ get_value:
 end:
 ```
 - R5 will hold the value that R2 stored in the function. This is a traditional way of return a value, though not used so much.
+
+# Day-7
+- Implemented Linear Search. The program works fine.
